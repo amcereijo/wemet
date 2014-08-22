@@ -40,11 +40,13 @@ exports.addIgo = function(req, res) {
 			place: postedIgo.place,
 			date: postedIgo.date,
 			desc: postedIgo.desc,
+			pass: postedIgo.pass,
 			people: people
 	});
 
 	newIgo.save(function(err, newIgoC) {
 		if(err){ res.send(500, err.message); }
+		newIgoC.pass = '';
 		res.status(200).jsonp(newIgoC);
 	});
 }
@@ -53,13 +55,13 @@ exports.addIgo = function(req, res) {
 exports.updateIgo = function(req, res) {
 	var body = req.body;
 	IGoModel.findById(req.params.id, function(err, igo) {
-		igo.user = body.user || igo.user;
 		igo.place = body.place || igo.place;
 		igo.date = body.date || igo.date;
 		igo.desc = body.desc || igo.desc;
+		igo.pass = body.pass || igo.pass;
 		var i, leng = igo.people.length;
 		for(i=0;i<leng;i++) {
-			var j, leng2 = body.people? body.people.length:0;
+			var j, leng2 = body.people? 	body.people.length:0;
 			for(j=0;j<leng2;j++) {
 				if(body.people[j].user === igo.people[i].user) {
 					igo.people[i].resp = body.people[j].resp || igo.people[i].resp;
@@ -70,6 +72,7 @@ exports.updateIgo = function(req, res) {
 		}
 		igo.save(function(err) {
 			if(err) { res.send(500, err.message); }
+			igo.pass = '';
 			res.status(200).jsonp(igo);
 		});
 	});
