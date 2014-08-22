@@ -1,0 +1,12 @@
+{
+  "name": "wemet",
+  "description": "wemet api project",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.8.x",
+    "mongoose": "3.8.15",
+    "method-override": "^2.1.2",
+    "body-parser": "^1.5.1"
+  }
+}
