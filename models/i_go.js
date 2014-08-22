@@ -13,7 +13,8 @@ var iGo = new Schema({
 		user: {type: String, required: true},
 		resp: {type: String, enum:['N/A','no','yes','maybe']},
 		seen: Boolean
-	}]
+	}],
+	deleted: {type: Boolean}
 });
 
 iGo.pre('save', function(next) {

@@ -34,6 +34,8 @@ igoRoutes.route('/igo/:id')
 	.get(IgoController.findById)
 	.put(IgoController.updateIgo)
 	.delete(IgoController.deleteIgo);
+igoRoutes.route('/igo/:id/remove')
+  .delete(IgoController.removeIgo);
 app.use('/api', igoRoutes);
 
 app.listen(3000, function() {

@@ -41,7 +41,8 @@ exports.addIgo = function(req, res) {
 			date: postedIgo.date,
 			desc: postedIgo.desc,
 			pass: postedIgo.pass,
-			people: people
+			people: people,
+			deleted: false
 	});
 
 	newIgo.save(function(err, newIgoC) {
@@ -79,8 +80,19 @@ exports.updateIgo = function(req, res) {
 }
 
 
-//DELETE
+//DELETE logical
 exports.deleteIgo = function(req, res) {
+	IGoModel.findById(req.params.id, function(err, igo) {
+		igo.deleted = true;
+		igo.save(function(err) {
+			if(err) {res.send(500, err.message); }
+			res.status(200);
+		});
+	});
+}
+
+//DELETE forever
+exports.removeIgo = function(req, res) {
 	IGoModel.findById(req.params.id, function(err, igo) {
 		igo.remove(function(err) {
 			if(err) {res.send(500, err.message); }
