@@ -22,14 +22,29 @@ iGo.pre('save', function(next) {
 	if(!igo.isModified('pass')) {
 		return next();
 	}
-	bcrypt.genSalt(SALT_IGO, function(err, salt) {
-		if(err) { return next(err); }
-		bcrypt.hash(igo.pass, salt, function(err, hash) {
+	if(igo.pass) {
+		bcrypt.genSalt(SALT_IGO, function(err, salt) {
 			if(err) { return next(err); }
-			igo.pass = hash;
-			next();
+			bcrypt.hash(igo.pass, salt, function(err, hash) {
+				if(err) { return next(err); }
+				igo.pass = hash;
+				next();
+			});
 		});
-	});
+	}
+});
+
+iGo.pre('init', function(next, data) {
+	//links to HATEOAS
+	var url = '/api/igo/',
+		links = [
+			{self: url+data._id},
+			{update: url+data._id},
+			{delete: url+data._id},
+			{remove: url+data._id+'/remove'}
+		];
+  data._links = links;
+  next();
 });
 
 iGo.methods.comparePass = function(pass, callBack) {
