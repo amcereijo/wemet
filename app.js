@@ -2,8 +2,10 @@ var express = require('express'),
 	app = express(),
 	bodyParser = require('body-parser'),
 	methodOverride = require('method-override'),
-	mongoose = require('mongoose');
+	mongoose = require('mongoose'),
+  cors = require('cors');
 
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(methodOverride());
