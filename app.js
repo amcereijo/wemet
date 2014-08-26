@@ -18,9 +18,7 @@ router.get('/', function(req, res){
 app.use(router);
 
 mongoose.connect('mongodb://localhost/wemet', function(err, res){
-	if(err) {
-		throw err;
-	}
+	if(err) { throw err; }
 	console.log('Connected to Database');
 });
 
@@ -34,11 +32,17 @@ igoRoutes.route('/igo')
 	.post(IgoController.addIgo);
 igoRoutes.route('/igo/:id')
 	.get(IgoController.findById)
-	.put(IgoController.updateIgo)
 	.delete(IgoController.deleteIgo);
+igoRoutes.route('/igo/user/:user')
+  .get(IgoController.findUserIgo);
 igoRoutes.route('/igo/:id/remove')
   .delete(IgoController.removeIgo);
+igoRoutes.route('/igo/:id/resp')
+  .put(IgoController.updateResp);
+igoRoutes.route('/igo/:id/seen')
+  .put(IgoController.updateSeen);
 app.use('/api', igoRoutes);
+
 
 app.listen(3000, function() {
 	console.log("Node server runngin on http://localhost:3000");

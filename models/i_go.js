@@ -5,17 +5,17 @@ var mongoose = require('mongoose'),
 
 var iGo = new Schema({
 	user: {type: String, required: true},
+	parentId: {type: String},
+	userTo: {type: String},
 	place: {type: String, required: true},
 	date: {type: Date, required: true},
 	desc: {type: String},
 	pass: {type: String, select: false},
-	people: [{
-		user: {type: String, required: true},
-		resp: {type: String, enum:['N/A','no','yes','maybe']},
-		seen: Boolean
-	}],
+	resp: {type: String, enum:['N/A','no','yes','maybe']},
+	seen: Boolean,
 	deleted: {type: Boolean}
 });
+
 
 iGo.pre('save', function(next) {
 	var igo = this;
@@ -38,10 +38,10 @@ iGo.pre('init', function(next, data) {
 	//links to HATEOAS
 	var url = '/api/igo/',
 		links = [
-			{self: url+data._id},
-			{update: url+data._id},
-			{delete: url+data._id},
-			{remove: url+data._id+'/remove'}
+			{method: 'get', self: url+data._id},
+			{delete: url+data._id, method: 'post'},
+			{response: url+data._id+'/resp', method: 'put'},
+			{setSeen: url+data._id+'/seen', method: 'put'}
 		];
   data._links = links;
   next();
