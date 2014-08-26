@@ -38,10 +38,10 @@ iGo.pre('init', function(next, data) {
 	//links to HATEOAS
 	var url = '/api/igo/',
 		links = [
-			{self: url+data._id},
-			{update: url+data._id},
-			{delete: url+data._id},
-			{remove: url+data._id+'/remove'}
+			{method: 'get', self: url+data._id},
+			{delete: url+data._id, method: 'post'},
+			{response: url+data._id+'/resp', method: 'put'},
+			{setSeen: url+data._id+'/seen', method: 'put'}
 		];
   data._links = links;
   next();

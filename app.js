@@ -32,12 +32,15 @@ igoRoutes.route('/igo')
 	.post(IgoController.addIgo);
 igoRoutes.route('/igo/:id')
 	.get(IgoController.findById)
-	.put(IgoController.updateIgo)
 	.delete(IgoController.deleteIgo);
 igoRoutes.route('/igo/user/:user')
   .get(IgoController.findUserIgo);
 igoRoutes.route('/igo/:id/remove')
   .delete(IgoController.removeIgo);
+igoRoutes.route('/igo/:id/resp')
+  .put(IgoController.updateResp);
+igoRoutes.route('/igo/:id/seen')
+  .put(IgoController.updateSeen);
 app.use('/api', igoRoutes);
 
 

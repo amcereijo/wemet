@@ -109,14 +109,31 @@ exports.addIgo = function(req, res) {
 	});
 }
 
-//PUT update 
-exports.updateIgo = function(req, res) {
+//PUT update resp field
+exports.updateResp = function(req, res) {
 	var body = req.body;
 	IGoModel.findById(req.params.id, function(err, igo) {
 		if(igo === null) { res.status(304).send('Resource not found!'); return; }
 
-		igo.deleted = (body.hasOwnProperty('deleted'))?body.deleted:igo.deleted;
 		igo.resp = body.resp || igo.resp;
+		
+		igo.save(function(err, newIgo) {
+			if(err) { 
+				res.status(500).send(err.message + 
+					'. Accepted values: no, yes, maybe'); 
+				return;
+			}
+			res.status(200).jsonp(getLinks(newIgo));
+		});
+	});
+}
+
+//PUT update seen field
+exports.updateSeen = function(req, res) {
+	var body = req.body;
+	IGoModel.findById(req.params.id, function(err, igo) {
+		if(igo === null) { res.status(304).send('Resource not found!'); return; }
+
 		igo.seen = (body.hasOwnProperty('seen'))? body.seen : igo.seen;
 		
 		igo.save(function(err, newIgo) {
@@ -125,7 +142,6 @@ exports.updateIgo = function(req, res) {
 		});
 	});
 }
-
 
 //DELETE logical
 exports.deleteIgo = function(req, res) {
