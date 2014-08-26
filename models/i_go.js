@@ -5,17 +5,17 @@ var mongoose = require('mongoose'),
 
 var iGo = new Schema({
 	user: {type: String, required: true},
+	parentId: {type: String},
+	userTo: {type: String},
 	place: {type: String, required: true},
 	date: {type: Date, required: true},
 	desc: {type: String},
 	pass: {type: String, select: false},
-	people: [{
-		user: {type: String, required: true},
-		resp: {type: String, enum:['N/A','no','yes','maybe']},
-		seen: Boolean
-	}],
+	resp: {type: String, enum:['N/A','no','yes','maybe']},
+	seen: Boolean,
 	deleted: {type: Boolean}
 });
+
 
 iGo.pre('save', function(next) {
 	var igo = this;
